@@ -4,15 +4,15 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 SCRIPT_NAME=$(basename $0)
 BUILD_DIR=${SCRIPT_DIR}/build
 
-DOCKER_REG=${DOCKER_REG:-docker-artifactory.my}
-DOCKER_USR=${DOCKER_USR:-admin}
+DOCKER_REG=${DOCKER_REG:-joedayz2023.jfrog.io/joedayz-docker-local}
+DOCKER_USR=${DOCKER_USR:-jose.diaz@joedayz.pe}
 DOCKER_PSW=${DOCKER_PSW:-password}
 
 DOCKER_REPO=${DOCKER_REPO:-acme}
 DOCKER_TAG=${DOCKER_TAG:-dev}
 
-HELM_REPO=${HELM_REG:-http://artifactory.my/artifactory/helm}
-HELM_USR=${HELM_USR:-admin}
+HELM_REPO=${HELM_REG:-https://joedayz2023.jfrog.io/artifactory/joedayz-helm-local}
+HELM_USR=${HELM_USR:-jose.diaz@joedayz.pe}
 HELM_PSW=${HELM_PSW:-password}
 
 errorExit () {
@@ -173,8 +173,10 @@ main () {
     echo "HELM_USR:     ${HELM_USR}"
 
     # Cleanup
+    if [ "${PACK_HELM}" == "true" ]; then
     rm -rf ${BUILD_DIR}
-
+    fi
+    
     # Build and push docker images if needed
     if [ "${BUILD}" == "true" ]; then
         buildDockerImage
